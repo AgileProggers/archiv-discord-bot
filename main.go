@@ -295,7 +295,7 @@ func init() {
 func main() {
 	// debug login info
 	s.AddHandler(func(s *discordgo.Session, r *discordgo.Ready) {
-		pterm.Debug.Printfln("Logged in as: %s#%s", s.State.User.Username, s.State.User.Discriminator)
+		pterm.Info.Printfln("Logged in as: %s#%s", s.State.User.Username, s.State.User.Discriminator)
 	})
 
 	// print join server
