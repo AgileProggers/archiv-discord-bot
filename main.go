@@ -284,6 +284,14 @@ func init() {
 		}
 	}
 
+	if os.Getenv("ARCHIV_FRONTEND") != "" {
+		frontendUrl = os.Getenv("ARCHIV_FRONTEND")
+	}
+
+	if os.Getenv("ARCHIV_BACKEND") != "" {
+		backendUrl = os.Getenv("ARCHIV_BACKEND")
+	}
+
 	// create discord bot
 	var err error
 	s, err = discordgo.New("Bot " + token)
