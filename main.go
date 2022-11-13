@@ -329,7 +329,7 @@ func main() {
 		pterm.Success.Printfln("Registered command: \"%s\"", cmd.Name)
 	}
 
-	pterm.Info.Printfln("Join link: https://discord.com/oauth2/authorize?client_id=%s&scope=applications.commands%%20bot&permissions=3072", s.State.User.ID)
+	pterm.Info.Printfln("Join link: https://discord.com/oauth2/authorize?client_id=%s&scope=applications.commands%%20bot", s.State.User.ID)
 	pterm.Info.Println("Bot running. Press ctrl+c to exit.")
 
 	// wait for kill
