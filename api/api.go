@@ -8,6 +8,11 @@ import (
 	"time"
 )
 
+var (
+	frontendUrl string
+	backendUrl  string
+)
+
 type Vod struct {
 	UUID           string     `json:"uuid"`
 	Title          string     `json:"title"`
@@ -51,9 +56,9 @@ type StatsResponse struct {
 func Search(response *SearchResponse, query string, limit int) error {
 	var requestURL string
 	if limit == 1 {
-		requestURL = fmt.Sprintf("https://api.wubbl0rz.tv/vods/?limit=%d", limit)
+		requestURL = fmt.Sprintf("https://%s/vods/?limit=%d", backendUrl, limit)
 	} else {
-		requestURL = fmt.Sprintf("https://api.wubbl0rz.tv/vods/?limit=%d&q=%s", limit, query)
+		requestURL = fmt.Sprintf("https://%s/vods/?limit=%d&q=%s", backendUrl, limit, query)
 	}
 	res, err := http.Get(requestURL)
 	if err != nil {
@@ -78,7 +83,7 @@ func Search(response *SearchResponse, query string, limit int) error {
 }
 
 func UUID(response *UUIDResponse, uuid string) error {
-	requestURL := fmt.Sprintf("https://api.wubbl0rz.tv/vods/%s", uuid)
+	requestURL := fmt.Sprintf("https://%s/vods/%s", backendUrl, uuid)
 	res, err := http.Get(requestURL)
 	if err != nil {
 		return err
@@ -102,7 +107,7 @@ func UUID(response *UUIDResponse, uuid string) error {
 }
 
 func Stats(response *StatsResponse) error {
-	res, err := http.Get("https://api.wubbl0rz.tv/stats/long")
+	res, err := http.Get(fmt.Sprintf("https://%s/stats/long", backendUrl))
 	if err != nil {
 		return err
 	}
