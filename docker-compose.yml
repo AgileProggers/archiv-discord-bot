@@ -1,6 +1,6 @@
 version: "3"
 services:
   bot:
-    image: ghcr.io/AgileProggers/archiv-discord-bot
+    image: ghcr.io/agileproggers/archiv-discord-bot:latest 
     restart: unless-stopped
     env_file: .env
