@@ -9,8 +9,8 @@ import (
 )
 
 var (
-	frontendUrl string
-	backendUrl  string
+	FrontendUrl string
+	BackendUrl  string
 )
 
 type Vod struct {
@@ -56,9 +56,9 @@ type StatsResponse struct {
 func Search(response *SearchResponse, query string, limit int) error {
 	var requestURL string
 	if limit == 1 {
-		requestURL = fmt.Sprintf("https://%s/vods/?limit=%d", backendUrl, limit)
+		requestURL = fmt.Sprintf("https://%s/vods/?limit=%d", BackendUrl, limit)
 	} else {
-		requestURL = fmt.Sprintf("https://%s/vods/?limit=%d&q=%s", backendUrl, limit, query)
+		requestURL = fmt.Sprintf("https://%s/vods/?limit=%d&q=%s", BackendUrl, limit, query)
 	}
 	res, err := http.Get(requestURL)
 	if err != nil {
@@ -83,7 +83,7 @@ func Search(response *SearchResponse, query string, limit int) error {
 }
 
 func UUID(response *UUIDResponse, uuid string) error {
-	requestURL := fmt.Sprintf("https://%s/vods/%s", backendUrl, uuid)
+	requestURL := fmt.Sprintf("https://%s/vods/%s", BackendUrl, uuid)
 	res, err := http.Get(requestURL)
 	if err != nil {
 		return err
@@ -107,7 +107,7 @@ func UUID(response *UUIDResponse, uuid string) error {
 }
 
 func Stats(response *StatsResponse) error {
-	res, err := http.Get(fmt.Sprintf("https://%s/stats/long", backendUrl))
+	res, err := http.Get(fmt.Sprintf("https://%s/stats/long", BackendUrl))
 	if err != nil {
 		return err
 	}

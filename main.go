@@ -16,9 +16,6 @@ import (
 )
 
 var (
-	frontendUrl string
-	backendUrl  string
-
 	s *discordgo.Session
 
 	// registered commands
@@ -72,12 +69,12 @@ var (
 			for _, vod := range response.Result {
 				embeds = append(embeds, &discordgo.MessageEmbed{
 					Title: vod.Title,
-					URL:   fmt.Sprintf("https://%s/vods/watch/%s", frontendUrl, vod.UUID),
+					URL:   fmt.Sprintf("https://%s/vods/watch/%s", api.FrontendUrl, vod.UUID),
 					Image: &discordgo.MessageEmbedImage{
-						URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", backendUrl, vod.Filename),
+						URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", api.BackendUrl, vod.Filename),
 					},
 					Thumbnail: &discordgo.MessageEmbedThumbnail{
-						URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", backendUrl, vod.Filename),
+						URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", api.BackendUrl, vod.Filename),
 					},
 					Fields: []*discordgo.MessageEmbedField{
 						{
@@ -151,7 +148,7 @@ var (
 				results = results[:10]
 			}
 			for i, vod := range results {
-				content += fmt.Sprintf("\n%s [**%s**](<https://%s/vods/watch/%s>)", emotes[i], vod.Title, frontendUrl, vod.UUID)
+				content += fmt.Sprintf("\n%s [**%s**](<https://%s/vods/watch/%s>)", emotes[i], vod.Title, api.FrontendUrl, vod.UUID)
 				content += fmt.Sprintf("\n_:calendar: %s | :eye: %d_ | :bar_chart: Search Score: %.2f \n", vod.Date.Format("02.01.2006, 15:04:05"), vod.Viewcount, vod.TitleRank+vod.TranscriptRank)
 			}
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
@@ -188,9 +185,9 @@ var (
 				Data: &discordgo.InteractionResponseData{
 					Embeds: []*discordgo.MessageEmbed{{
 						Title: response.Result.Title,
-						URL:   fmt.Sprintf("https://%s/vods/watch/%s", frontendUrl, response.Result.UUID),
+						URL:   fmt.Sprintf("https://%s/vods/watch/%s", api.FrontendUrl, response.Result.UUID),
 						Image: &discordgo.MessageEmbedImage{
-							URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", backendUrl, response.Result.Filename),
+							URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", api.BackendUrl, response.Result.Filename),
 						},
 						Fields: []*discordgo.MessageEmbedField{
 							{
@@ -270,8 +267,8 @@ func init() {
 	// parse cli args
 	var token string
 	pflag.StringVarP(&token, "token", "t", "", "The Discord bot token you got from the developer portal")
-	pflag.StringVarP(&frontendUrl, "frontend", "f", "archiv.wubbl0rz.tv", "The frontend URL of the archive")
-	pflag.StringVarP(&backendUrl, "backend", "b", "api.wubbl0rz.tv", "The backend URL of the archive")
+	pflag.StringVarP(&api.FrontendUrl, "frontend", "f", "archiv.wubbl0rz.tv", "The frontend URL of the archive")
+	pflag.StringVarP(&api.BackendUrl, "backend", "b", "api.wubbl0rz.tv", "The backend URL of the archive")
 	pflag.Parse()
 
 	if token == "" {
@@ -285,11 +282,12 @@ func init() {
 	}
 
 	if os.Getenv("ARCHIV_FRONTEND") != "" {
-		frontendUrl = os.Getenv("ARCHIV_FRONTEND")
+		fmt.Println("not empty")
+		api.FrontendUrl = os.Getenv("ARCHIV_FRONTEND")
 	}
 
 	if os.Getenv("ARCHIV_BACKEND") != "" {
-		backendUrl = os.Getenv("ARCHIV_BACKEND")
+		api.BackendUrl = os.Getenv("ARCHIV_BACKEND")
 	}
 
 	// create discord bot
