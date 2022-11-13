@@ -31,7 +31,7 @@ jobs:
         run: |
           GOOS=$GOOS go build -trimpath -ldflags "-s -w" -o archiv-discord-bot-"$GOOS"-amd64 2> /dev/null
           if [ $? -ne 0 ]; then
-            echo "::warning ::$GOOS Build Failed"
+            echo "$GOOS Build Failed" >> $GITHUB_OUTPUT
             exit 0
           fi
       - name: Release
