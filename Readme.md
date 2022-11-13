@@ -1,6 +1,8 @@
 ## Run the bot
 
-`./archiv-discord-bot -t <bot-token>`
+Copy `sample.env` to `.env` and replace the discord token with your own.
+
+Download the [docker-compose.yml](https://github.com/AgileProggers/archiv-discord-bot/blob/master/docker-compose.yml) and run `docker-compose up -d`
 
 ## Supported Commands
 

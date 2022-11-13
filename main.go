@@ -275,9 +275,13 @@ func init() {
 	pflag.Parse()
 
 	if token == "" {
-		pterm.Error.Println("Required token missing. Usage:")
-		pflag.PrintDefaults()
-		os.Exit(1)
+		if os.Getenv("DISCORD_TOKEN") != "" {
+			token = os.Getenv("DISCORD_TOKEN")
+		} else {
+			pterm.Error.Println("Required token missing. Usage:")
+			pflag.PrintDefaults()
+			os.Exit(1)
+		}
 	}
 
 	// create discord bot
