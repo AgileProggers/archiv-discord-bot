@@ -5,7 +5,6 @@ import (
 	"os"
 	"os/signal"
 	"strconv"
-	"strings"
 	"syscall"
 	"time"
 
@@ -65,37 +64,43 @@ var (
 				})
 				return
 			}
-			var embeds []*discordgo.MessageEmbed
-			for _, vod := range response.Result {
-				embeds = append(embeds, &discordgo.MessageEmbed{
-					Title: vod.Title,
-					URL:   fmt.Sprintf("https://%s/vods/watch/%s", api.FrontendUrl, vod.UUID),
-					Image: &discordgo.MessageEmbedImage{
-						URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", api.BackendUrl, vod.Filename),
+			if len(response.Result) == 0 {
+				s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
+					Type: discordgo.InteractionResponseChannelMessageWithSource,
+					Data: &discordgo.InteractionResponseData{
+						Content: "Keine Ergebnisse",
 					},
-					Thumbnail: &discordgo.MessageEmbedThumbnail{
-						URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", api.BackendUrl, vod.Filename),
-					},
-					Fields: []*discordgo.MessageEmbedField{
-						{
-							Name:   "Datum",
-							Value:  vod.Date.Format("02.01.2006, 15:04:05"),
-							Inline: true,
-						},
-						{
-							Name:   "Views",
-							Value:  strconv.Itoa(vod.Viewcount),
-							Inline: true,
-						},
-						{
-							Name:   "Clips",
-							Value:  strconv.Itoa(len(vod.Clips)),
-							Inline: true,
-						},
-					},
-					Timestamp: vod.Date.Format(time.RFC3339),
 				})
+				return
 			}
+			embeds := []*discordgo.MessageEmbed{{
+				Title: response.Result[0].Title,
+				URL:   fmt.Sprintf("https://%s/vods/watch/%s", api.FrontendUrl, response.Result[0].UUID),
+				Image: &discordgo.MessageEmbedImage{
+					URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", api.BackendUrl, response.Result[0].Filename),
+				},
+				Thumbnail: &discordgo.MessageEmbedThumbnail{
+					URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", api.BackendUrl, response.Result[0].Filename),
+				},
+				Fields: []*discordgo.MessageEmbedField{
+					{
+						Name:   "Datum",
+						Value:  response.Result[0].Date.Format("02.01.2006, 15:04:05"),
+						Inline: true,
+					},
+					{
+						Name:   "Views",
+						Value:  strconv.Itoa(response.Result[0].Viewcount),
+						Inline: true,
+					},
+					{
+						Name:   "Clips",
+						Value:  strconv.Itoa(len(response.Result[0].Clips)),
+						Inline: true,
+					},
+				},
+				Timestamp: response.Result[0].Date.Format(time.RFC3339),
+			}}
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
 				Data: &discordgo.InteractionResponseData{
