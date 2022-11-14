@@ -223,7 +223,7 @@ var (
 				return
 			}
 
-			content := strings.TrimSpace(fmt.Sprintf(`
+			content := fmt.Sprintf(`
 **__Statistiken__**
 
 :chart_with_upwards_trend: **Allgemein**
@@ -250,7 +250,7 @@ var (
 				response.Result.ClipsPerCreator[0].Name, response.Result.ClipsPerCreator[0].ViewCount, response.Result.ClipsPerCreator[0].ClipCount,
 				response.Result.ClipsPerCreator[1].Name, response.Result.ClipsPerCreator[1].ViewCount, response.Result.ClipsPerCreator[1].ClipCount,
 				response.Result.ClipsPerCreator[2].Name, response.Result.ClipsPerCreator[2].ViewCount, response.Result.ClipsPerCreator[2].ClipCount,
-			))
+			)
 
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
@@ -282,7 +282,6 @@ func init() {
 	}
 
 	if os.Getenv("ARCHIV_FRONTEND") != "" {
-		fmt.Println("not empty")
 		api.FrontendUrl = os.Getenv("ARCHIV_FRONTEND")
 	}
 
