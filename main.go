@@ -79,9 +79,6 @@ var (
 				Image: &discordgo.MessageEmbedImage{
 					URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", api.BackendUrl, response.Result[0].Filename),
 				},
-				Thumbnail: &discordgo.MessageEmbedThumbnail{
-					URL: fmt.Sprintf("https://%s/media/vods/%s-lg.jpg", api.BackendUrl, response.Result[0].Filename),
-				},
 				Fields: []*discordgo.MessageEmbedField{
 					{
 						Name:   "Datum",
