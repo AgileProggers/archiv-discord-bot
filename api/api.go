@@ -43,7 +43,7 @@ type StatsResponse struct {
 		CountSizeBytes       int     `json:"count_size_bytes"`
 		CountTranscriptWords int     `json:"count_transcript_words"`
 		CountUniqueWords     int     `json:"count_unique_words"`
-		CountAvgWords        int     `json:"count_avg_words"`
+		CountAvgWords        float64 `json:"count_avg_words"`
 		DatabaseSize         int     `json:"database_size"`
 		ClipsPerCreator      []struct {
 			Name      string `json:"name"`
