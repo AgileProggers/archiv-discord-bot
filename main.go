@@ -239,7 +239,7 @@ var (
 :speaking_head: **Wörter**
 %d gesprochene Wörter
 %d einzigartige Wörter
-%d durchschnittliche Wörter pro Stream
+%.0f durchschnittliche Wörter pro Stream
 
 :floppy_disk: **Größe**
 %.2fTiB Archivgröße
