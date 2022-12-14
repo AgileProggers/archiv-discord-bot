@@ -154,7 +154,7 @@ var (
 			}
 			for i, vod := range results {
 				content += fmt.Sprintf("\n%s [**%s**](<https://%s/vods/watch/%s>)", emotes[i], vod.Title, api.FrontendUrl, vod.UUID)
-				content += fmt.Sprintf("\n_:calendar: %s | :eye: %d_ | :bar_chart: Search Score: %.2f \n", vod.Date.Format("02.01.2006, 15:04:05"), vod.Viewcount, vod.TitleRank+vod.TranscriptRank)
+				content += fmt.Sprintf("\n:calendar: %s | :eye: %d | :bar_chart: Search Score: %.2f \n", vod.Date.Format("02.01.2006, 15:04:05"), vod.Viewcount, vod.TitleRank+vod.TranscriptRank)
 			}
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
